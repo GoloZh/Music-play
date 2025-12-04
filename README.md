@@ -1,24 +1,14 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
-
-# Run and deploy your AI Studio app
-
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/drive/1-fB9MqERsi9tfY9TcJCEl-a7C6kHMvDc
 
 ## Run Locally
 
 **Prerequisites:**  Node.js
 
 
-1. Install dependencies:
+1. 进入解压后的文件夹，鼠标右键进入中断输入:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
+2.. 启动服务:
    `npm run dev`
-
+3.打开中断中显示的ip
    
 感谢 GD音乐台(music.gdstudio.xyz)提供的免费API
 # 在线网址
