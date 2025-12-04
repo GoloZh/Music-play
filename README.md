@@ -1,7 +1,7 @@
 # 感谢 GD音乐台(music.gdstudio.xyz)提供的免费API
 **Prerequisites:**  Node.js
-1. #在主文件夹中，进入终端输入:
+1. # 在主文件夹中，进入终端输入:
    `npm install`
-2. 运行程序，在终端中输入:
+2. # 运行程序，在终端中输入:
    `npm run dev`
-3. 进入浏览器，打开相应的![Uploading image.png…]()
+3. # 进入浏览器，打开终端中相应的ip
