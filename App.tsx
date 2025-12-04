@@ -11,6 +11,7 @@ import { Song, LyricLine } from './types';
 import PixelButton from './components/PixelButton';
 import LyricsDisplay from './components/Visualizer';
 import ProgressBar from './components/ProgressBar';
+import GeneratedCover from './components/GeneratedCover'; // Import the new component
 import { saveSongToDB, getAllSongsFromDB, deleteSongFromDB } from './db';
 
 // Helper to generate consistent pixel colors based on string
@@ -53,16 +54,6 @@ const THEMES = [
   { color: '#22d3ee', name: 'CYAN' },   // Cyan
   { color: '#f472b6', name: 'SYNTH' },  // Pink
   { color: '#ef4444', name: 'DANGER' }  // Red
-];
-
-// Curated list of Retro/Cyberpunk/Vaporwave images for idle state
-const IDLE_COVERS = [
-  "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&auto=format&fit=crop", // Retro Room
-  "https://images.unsplash.com/photo-1614726365723-49cfae95843b?q=80&w=600&auto=format&fit=crop", // Neon City
-  "https://images.unsplash.com/photo-1592147159781-b586e3e56637?q=80&w=600&auto=format&fit=crop", // Cassette
-  "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=600&auto=format&fit=crop", // Matrix Code
-  "https://images.unsplash.com/photo-1515549832467-8783363e19b6?q=80&w=600&auto=format&fit=crop", // Vaporwave Statue
-  "https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=600&auto=format&fit=crop", // Neon Sign
 ];
 
 // Expanded Discovery Keywords for Random Mix to reduce repetition
@@ -111,11 +102,6 @@ const App: React.FC = () => {
   const [isBuffering, setIsBuffering] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
-  
-  // Random Idle Cover - Pick one immediately
-  const [idleCover, setIdleCover] = useState<string>(() => {
-    return IDLE_COVERS[Math.floor(Math.random() * IDLE_COVERS.length)];
-  });
 
   // Smart Random State
   const [recentTags, setRecentTags] = useState<string[]>([]);
@@ -877,25 +863,7 @@ const App: React.FC = () => {
                       ${isPlaying ? 'shadow-[0px_0px_20px_0px_var(--theme-color)] border-[var(--theme-color)]' : 'shadow-[8px_8px_0px_0px_var(--theme-color)]'}
                   `}>
                       {!currentSong ? (
-                        <div className="w-full h-full relative group cursor-pointer overflow-hidden border-4 border-gray-800 bg-black">
-                             {/* Background Idle Image */}
-                             <img 
-                               src={idleCover} 
-                               alt="System Idle" 
-                               className="w-full h-full object-cover opacity-50 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
-                               style={{ imageRendering: 'pixelated' }}
-                             />
-                             {/* Overlay UI */}
-                             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[1px]">
-                                <div className="text-[var(--theme-color)] text-center animate-pulse drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">
-                                    <Disc size={48} className="mx-auto mb-4" />
-                                    <h2 className="text-xs md:text-sm font-bold mb-2 tracking-widest bg-black/60 px-2">SYSTEM READY</h2>
-                                    <p className="text-[8px] md:text-[10px] opacity-80 bg-black/60 px-1">WAITING FOR INPUT...</p>
-                                </div>
-                             </div>
-                             {/* Scanline overlay for the image specifically */}
-                             <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] z-10"></div>
-                        </div>
+                         <GeneratedCover themeColor={themeColor} />
                       ) : currentSong.coverUrl && !currentSong.coverUrl.includes('via.placeholder') ? (
                         <img 
                           src={currentSong.coverUrl} 
