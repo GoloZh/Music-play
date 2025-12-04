@@ -335,7 +335,8 @@ const App: React.FC = () => {
         
         // Auto play first song if random mix
         if (DISCOVERY_TAGS.includes(term)) {
-           setTimeout(() => playSongAtIndex(0, 'SEARCH'), 100);
+           // Pass newSongs explicit override to avoid stale state closure bug
+           setTimeout(() => playSongAtIndex(0, 'SEARCH', newSongs), 100);
         }
 
       } else {
@@ -503,7 +504,7 @@ const App: React.FC = () => {
     playNext();
   };
 
-  const playSongAtIndex = async (index: number, forcedMode?: 'SEARCH' | 'LOCAL' | 'FAVORITES') => {
+  const playSongAtIndex = async (index: number, forcedMode?: 'SEARCH' | 'LOCAL' | 'FAVORITES', overrideList?: Song[]) => {
     // Determine which list initiated the play
     const targetMode = forcedMode || (activeTab === 'LIBRARY' ? 'LOCAL' : activeTab === 'FAVORITES' ? 'FAVORITES' : 'SEARCH');
     
@@ -515,9 +516,13 @@ const App: React.FC = () => {
     setCurrentTime(0);
 
     let targetList: Song[] = [];
-    if (targetMode === 'LOCAL') targetList = localPlaylist;
-    else if (targetMode === 'FAVORITES') targetList = favoritesPlaylist;
-    else targetList = onlinePlaylist;
+    if (overrideList) {
+        targetList = overrideList;
+    } else {
+        if (targetMode === 'LOCAL') targetList = localPlaylist;
+        else if (targetMode === 'FAVORITES') targetList = favoritesPlaylist;
+        else targetList = onlinePlaylist;
+    }
 
     const songToPlay = targetList[index];
 
