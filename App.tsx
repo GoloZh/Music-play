@@ -173,7 +173,14 @@ const App: React.FC = () => {
       try {
         const savedFavs = localStorage.getItem('pixel_tunes_favs');
         if (savedFavs) {
-          setFavoritesPlaylist(JSON.parse(savedFavs));
+          const parsedFavs: Song[] = JSON.parse(savedFavs);
+          // CRITICAL FIX: Clear audioUrl for loaded favorites to force re-fetch
+          // because URLs from the API expire after some time.
+          const cleanFavs = parsedFavs.map(s => ({
+            ...s,
+            audioUrl: '' 
+          }));
+          setFavoritesPlaylist(cleanFavs);
         }
       } catch (err) {
         console.error("Failed to load favorites", err);
